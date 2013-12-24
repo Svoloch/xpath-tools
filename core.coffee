@@ -78,6 +78,23 @@ $X = do->
 					item.setAttribute 'class', newClass
 				else item.removeAttribute 'class'
 			@
+		attr: (attrs)->
+			for item in @ when item instanceof Element
+				for name,value of attrs
+					try
+						item.setAttribute name, value
+					catch e then
+			@
+		css: (attrs)->
+			for item in @ when item instanceof Element
+				for name,value of attrs
+					item.style[name] = value
+			@
+		empty: ->
+			for item in @ when item instanceof Element
+				while item.hasChildNodes()
+					item.removeChild item.firstChild
+			@
 	XPath = (xpath, root = document.documentElement)->
 		iterator = try
 			document.evaluate xpath, root
