@@ -1,5 +1,11 @@
 
 $X = do->
+	defaults =
+		ns:
+			svg: "http://www.w3.org/2000/svg"
+			html: "http://www.w3.org/1999/xhtml"
+		resolver: (ns)->(prefix)-> ns[prefix] or null
+		type: 0
 	class Class extends Array
 		constructor: -> super()
 		clone: ->
@@ -95,16 +101,32 @@ $X = do->
 				while item.hasChildNodes()
 					item.removeChild item.firstChild
 			@
-	XPath = (xpath, root = document.documentElement)->
+	XPath = (xpath, root = document.documentElement, config)->
+		resolver = (config?.resolver? or defaults.resolver) (config?.ns? or defaults.ns)
+		type = if config?.type? then config.type else defaults.type
 		iterator = try
-			document.evaluate xpath, root
+			document.evaluate xpath, root, resolver, type
 		catch e then
 		result = new Class
 		if iterator
-			while (item = iterator.iterateNext())?
-				result.push item
+			switch iterator.resultType
+				when 1
+					result.push iterator.numberValue
+				when 2
+					result.push iterator.stringValue
+				when 3
+					result.push iterator.booleanValue
+				when 4, 5
+					while (item = iterator.iterateNext())?
+						result.push item
+				when 6, 7
+					for index in [0...iterator.snapshotLength]
+						result.push iterator.snapshotItem(index)
+				when 8, 9
+					result.push iterator.singleNodeValue
 		result
 	XPath.Class = Class
+	XPath.defaults = defaults
 	XPath
 $A = (arr)->
 	result = new $X.Class
