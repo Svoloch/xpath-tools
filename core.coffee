@@ -12,10 +12,15 @@ $X = do->
 			result = new @.constructor
 			result.push.apply result, @
 			result
-		xpath: (xp)->
+		xpath: (xp, config)->
 			result = new @.constructor
 			for element in @
-				result.push.apply result, XPath xp, element
+				result.push.apply result, XPath xp, element, config
+			result
+		xpathFilter: (xp)->
+			result = new @.constructor
+			result.push.apply result, @.filter (item)->
+				(XPath xp, item, {type:3})[0]
 			result
 		unique: if typeof Set == 'function'
 			->
