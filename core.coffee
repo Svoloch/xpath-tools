@@ -4,6 +4,9 @@ $X = do->
 		ns:
 			svg: "http://www.w3.org/2000/svg"
 			html: "http://www.w3.org/1999/xhtml"
+			xul: "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+			xslt: "http://www.w3.org/1999/XSL/Transform"
+			fo: "http://www.w3.org/1999/XSL/Format"
 		resolver: (ns)->(prefix)-> ns[prefix] or null
 		type: 0
 	class Class extends Array
@@ -105,6 +108,59 @@ $X = do->
 			for item in @ when item instanceof Element
 				while item.hasChildNodes()
 					item.removeChild item.firstChild
+			@
+		remove: ->
+			for item in @ when item instanceof Node
+				if item.parentNode instanceof Node
+					item.parentNode.removeChild item
+		prepend: (args...)->
+			return @ unless args.length
+			prependArrayMain = (arr)->
+				for value, index in arr by -1
+					#break if index<0
+					if value instanceof Node
+						element.insertBefore value, element.firstChild
+					else if value instanceof [].constructor
+						prependArray value
+					else
+						element.insertBefore (document.createTextNode "#{value}"), element.firstChild
+			prependArray = (arr)->
+				if element.firstChild
+					prependArray = prependArrayMain
+					prependArrayMain arr
+				else if arr[arr.length-1] instanceof [].constructor
+					prependArray arr[arr.length-1]
+					prependArray arr[0...-1]
+				else
+					if arr[arr.length-1] instanceof Node
+						element.appendChild arr[arr.length-1]
+					else
+						element.appendChild document.createTextNode "#{value}"
+					prependArray = prependArrayMain
+					prependArray arr[0...-1]
+			for item in @
+				if item instanceof Node
+					element = item
+					break
+			if element
+				prependArray args
+			@
+		append: (args...)->
+			return @ unless args.length
+			appendArray = (arr)->
+				for value in arr
+					if value instanceof Node
+						element.appendChild value
+					else if value instanceof [].constructor
+						appendArray value
+					else
+						element.appendChild document.createTextNode "#{value}"
+			for item in @
+				if item instanceof Node
+					element = item
+					break
+			if element
+				appendArray args
 			@
 	XPath = (xpath, root = document.documentElement, config)->
 		resolver = (config?.resolver? or defaults.resolver) (config?.ns? or defaults.ns)
