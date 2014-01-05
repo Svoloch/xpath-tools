@@ -18,12 +18,12 @@ $X = do->
 		xpath: (xp, config)->
 			result = new @.constructor
 			for element in @
-				result.push.apply result, XPath xp, element, config
+				result.push.apply result, @.constructor.XPath xp, element, config
 			result
 		xpathFilter: (xp)->
 			result = new @.constructor
 			result.push.apply result, @.filter (item)->
-				(XPath xp, item, {type:3})[0]
+				(@.constructor.XPath xp, item, {type:3})[0]
 			result
 		unique: if typeof Set == 'function'
 			->
@@ -117,7 +117,6 @@ $X = do->
 			return @ unless args.length
 			prependArrayMain = (arr)->
 				for value, index in arr by -1
-					#break if index<0
 					if value instanceof Node
 						element.insertBefore value, element.firstChild
 					else if value instanceof [].constructor
@@ -187,15 +186,16 @@ $X = do->
 					result.push iterator.singleNodeValue
 		result
 	XPath.Class = Class
+	Class.XPath = XPath
 	XPath.defaults = defaults
 	XPath
 $A = (arr)->
 	result = new $X.Class
 	result.push.apply result, arr
 	result
-$svg = (tag)->	$A [document.createElementNS "http://www.w3.org/2000/svg", tag]
+$svg = (tag)-> $A [document.createElementNS "http://www.w3.org/2000/svg", tag]
 $html = (tag)-> $A  [document.createElementNS "http://www.w3.org/1999/xhtml", tag]
 $ID = (id)-> $A [document.getElementById id]
-$C = (cls)->	$A document.getElementsByClassName cls
+$C = (cls)-> $A document.getElementsByClassName cls
 $N = (name, root)-> $X "//*[@name=#{JSON.stringify name}]", root
 $L = console.log.bind console
