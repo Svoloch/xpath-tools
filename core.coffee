@@ -9,7 +9,7 @@ $X = do->
 			fo: "http://www.w3.org/1999/XSL/Format"
 		resolver: (ns)->(prefix)-> ns[prefix] or null
 		type: 0
-	class Class extends Array
+	class Class extends [].constructor
 		constructor: -> super()
 		clone: ->
 			result = new @.constructor
@@ -161,11 +161,11 @@ $X = do->
 			if element
 				appendArray args
 			@
-	XPath = (xpath, root = document.documentElement, config)->
+	XPath = (xpath, root = document, config)->
 		resolver = (config?.resolver? or defaults.resolver) (config?.ns? or defaults.ns)
 		type = if config?.type? then config.type else defaults.type
 		iterator = try
-			document.evaluate xpath, root, resolver, type
+			document.evaluate xpath, root, resolver, type, null
 		catch e then
 		result = new Class
 		if iterator
@@ -188,13 +188,23 @@ $X = do->
 	XPath.Class = Class
 	Class.XPath = XPath
 	XPath.defaults = defaults
+	XPath.clone = ->
+		newXPath = do(originalXPath = @)->->
+			originalXPath.apply @, arguments
+		for field in Object.keys @
+			newXPath[field] = @[field]
+		newClass = class extends @Class
+			constructor: ->super()
+		newClass.XPath = newXPath
+		newXPath.Class = newClass
+		newXPath
 	XPath
 $A = (arr)->
 	result = new $X.Class
 	result.push.apply result, arr
 	result
 $svg = (tag)-> $A [document.createElementNS "http://www.w3.org/2000/svg", tag]
-$html = (tag)-> $A  [document.createElementNS "http://www.w3.org/1999/xhtml", tag]
+$html = (tag)-> $A [document.createElementNS "http://www.w3.org/1999/xhtml", tag]
 $ID = (id)-> $A [document.getElementById id]
 $C = (cls)-> $A document.getElementsByClassName cls
 $N = (name, root)-> $X "//*[@name=#{JSON.stringify name}]", root
