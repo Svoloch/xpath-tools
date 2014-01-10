@@ -94,14 +94,17 @@ $X = do->
 			@
 		attr: (attrs)->
 			for item in @ when item instanceof Element
-				for name,value of attrs
+				for name, value of attrs
 					try
-						item.setAttribute name, value
+						if value?
+							item.setAttribute name, value
+						else
+							item.removeAttribute name
 					catch e then
 			@
 		css: (attrs)->
 			for item in @ when item instanceof Element
-				for name,value of attrs
+				for name, value of attrs
 					item.style[name] = value
 			@
 		empty: ->
@@ -161,6 +164,14 @@ $X = do->
 			if element
 				appendArray args
 			@
+		val: (value)->
+			if arguments.length
+				for item in @ when item.value?
+					item.value = value
+				return @
+			else
+				for item in @ when item.value?
+					return item.value
 	XPath = (xpath, root = document, config)->
 		resolver = (config?.resolver? or defaults.resolver) (config?.ns? or defaults.ns)
 		type = if config?.type? then config.type else defaults.type
@@ -199,13 +210,14 @@ $X = do->
 		newXPath.Class = newClass
 		newXPath
 	XPath
-$A = (arr)->
+$A = (arrs...)->
 	result = new $X.Class
-	result.push.apply result, arr
+	for arr in arrs
+		result.push.apply result, arr
 	result
 $svg = (tag)-> $A [document.createElementNS "http://www.w3.org/2000/svg", tag]
 $html = (tag)-> $A [document.createElementNS "http://www.w3.org/1999/xhtml", tag]
-$ID = (id)-> $A [document.getElementById id]
+$ID = (ids...)-> $A (for id in ids then document.getElementById id)
 $C = (cls)-> $A document.getElementsByClassName cls
 $N = (name, root)-> $X "//*[@name=#{JSON.stringify name}]", root
 $L = console.log.bind console
