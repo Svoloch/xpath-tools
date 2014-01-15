@@ -8,7 +8,7 @@ Before using
 For use run:
 
 ```
-coffee -c --bare --join xpath.js core.coffee events.coffee
+coffee -c --bare --join xpath.js core.coffee utils.coffee events.coffee
 ```
 
 Then you can attach `xpath.js` to HTML, SVG or other file by `<script/>` tag.

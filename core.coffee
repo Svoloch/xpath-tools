@@ -12,31 +12,31 @@ $X = do->
 	class Class extends [].constructor
 		constructor: -> super()
 		clone: ->
-			result = new @.constructor
+			result = new @constructor
 			result.push.apply result, @
 			result
 		xpath: (xp, config)->
-			result = new @.constructor
+			result = new @constructor
 			for element in @
-				result.push.apply result, @.constructor.XPath xp, element, config
+				result.push.apply result, @constructor.XPath xp, element, config
 			result
 		xpathFilter: (xp)->
-			result = new @.constructor
-			result.push.apply result, @.filter (item)->
-				(@.constructor.XPath xp, item, {type:3})[0]
+			result = new @constructor
+			result.push.apply result, @filter (item)->
+				(@constructor.XPath xp, item, {type:3})[0]
 			result
 		unique: if typeof Set == 'function'
 			->
-				result = new @.constructor
+				result = new @constructor
 				set = new Set
-				for item in @ then unless set.has item
+				@forEach (item)-> unless set.has item
 					set.add item
 					result.push item
 				result
 		else
 			->
-				result = new @.constructor
-				for item in @ then if ~(result.indexOf item)
+				result = new @constructor
+				@forEach (item)-> if ~(result.indexOf item)
 					result.push item
 				result
 		on: (event, callback)->
@@ -86,7 +86,7 @@ $X = do->
 				else cls
 			@
 		removeClass: (cls)->
-			test = (className)->className!=cls
+			test = (className)-> className != cls
 			for item in @ when item instanceof Element
 				if newClass = item.getAttribute('class').split(/\s+/).filter(test).join(' ')
 					item.setAttribute 'class', newClass
