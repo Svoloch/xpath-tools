@@ -18,11 +18,11 @@ How to use
 
 `$X` is the main function.
 
-```
-$X("//input[@type='number']")
-```
+`$X("//input[@type='number']")`
 selet all input elements with number type.
 
-```$X("//table").xpath("count(tr|tbody/tr)")```
+`$X("//table").xpath("count(tr|tbody/tr)")`
 numbers of rows in each table in document.
-```$C("cls").xpathFilter("img")``` elements with class `cls` and having image inside.
+
+`$C("cls").xpathFilter("img")`
+elements with class `cls` and having image inside.

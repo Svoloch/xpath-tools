@@ -210,14 +210,3 @@ $X = do->
 		newXPath.Class = newClass
 		newXPath
 	XPath
-$A = (arrs...)->
-	result = new $X.Class
-	for arr in arrs
-		result.push.apply result, arr
-	result
-$svg = (tag)-> $A [document.createElementNS "http://www.w3.org/2000/svg", tag]
-$html = (tag)-> $A [document.createElementNS "http://www.w3.org/1999/xhtml", tag]
-$ID = (ids...)-> $A (for id in ids then document.getElementById id)
-$C = (cls)-> $A document.getElementsByClassName cls
-$N = (name, root)-> $X "//*[@name=#{JSON.stringify name}]", root
-$L = console.log.bind console
