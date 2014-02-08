@@ -28,3 +28,9 @@ $R = do->
 						setTimeout (->throw e), 10
 					finally
 						list.shift()
+
+"concat slice splice map filter".split(" ").forEach (name)->
+	$X.Class::[name] = do(method=$X.Class::[name])-> ->
+		result = new @constructor
+		result.push method.apply @, arguments
+		result
