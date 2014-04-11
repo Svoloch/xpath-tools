@@ -39,18 +39,20 @@ $X = do->
 				@forEach (item)-> if ~(result.indexOf item)
 					result.push item
 				result
-		on: (event, callback)->
+		addListener: (event, callback)->
 			for item in @
 				try
 					item.addEventListener event, callback, false
 				catch e then
 			@
-		off: (event, callback)->
+		removeListener: (event, callback)->
 			for item in @
 				try
 					item.removeEventListener event, callback, false
 				catch e then
 			@
+		on: ->@addListener.apply @, arguments
+		off: ->@removeListener.apply @, arguments
 		one: (event, callback)->
 			oneCallback = ->
 				try
