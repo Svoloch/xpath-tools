@@ -43,13 +43,11 @@ $X = do->
 			for item in @
 				try
 					item.addEventListener event, callback, false
-				catch e then
 			@
 		removeListener: (event, callback)->
 			for item in @
 				try
 					item.removeEventListener event, callback, false
-				catch e then
 			@
 		on: ->@addListener.apply @, arguments
 		off: ->@removeListener.apply @, arguments
@@ -62,7 +60,6 @@ $X = do->
 			for item in @
 				try
 					item.addEventListener event, oneCallback, false
-				catch e then
 			@
 		once: (event, callback)->
 			copy = @clone()
@@ -70,12 +67,10 @@ $X = do->
 				try
 					for item in copy
 						item.removeEventListener event, onceCallback, false
-				catch e then
 				callback.apply @, arguments
 			for item in @
 				try
 					item.addEventListener event, onceCallback, false
-				catch e then
 			@
 		addClass: (cls)->
 			for item in @ when item instanceof Element
@@ -102,7 +97,6 @@ $X = do->
 							item.setAttribute name, value
 						else
 							item.removeAttribute name
-					catch e then
 			@
 		css: (attrs)->
 			for item in @ when item instanceof Element
@@ -179,7 +173,6 @@ $X = do->
 		type = if config?.type? then config.type else defaults.type
 		iterator = try
 			document.evaluate xpath, root, resolver, type, null
-		catch e then
 		result = new Class
 		if iterator
 			switch iterator.resultType

@@ -21,7 +21,7 @@ do(XPath = $X)->
 		@forEach (element)->try
 			if element?.__xpathinfo__?.events?[event]?
 				element.__xpathinfo__.events[event].forEach (callback)->
-					lastOff.call [element], event, callback
+					lastRemove.call [element], event, callback
 				element.__xpathinfo__.events[event] = []
 				element.__xpathinfo__.eventsDeleted[event] = 0
 	XPath.Class::addListener = (event, callback)->
@@ -30,8 +30,8 @@ do(XPath = $X)->
 		lastAdd.call @, event, callback
 	XPath.Class::removeListener = (event, callback)->
 		if arguments.length > 1
-			lastRemove.call @, event, callback
 			for element in @
 				remove element, event, callback
+			lastRemove.call @, event, callback
 		else removeAllListeners.call @, event
 		@
