@@ -6,8 +6,14 @@ $A = (arrs...)->
 	result
 $svg = (tag)-> $A [document.createElementNS "http://www.w3.org/2000/svg", tag]
 $html = (tag)-> $A [document.createElementNS "http://www.w3.org/1999/xhtml", tag]
-$ID = (ids...)-> $A (for id in ids then document.getElementById id)
-$C = (cls)-> $A document.getElementsByClassName cls
+$ID = (id, root=document)->
+	element = try
+		root.getElementById id
+	catch e then null
+	result = new $X.Class
+	if element? then result.push element
+	result
+$C = (cls, root=document)-> $A root.getElementsByClassName cls
 $N = (name, root)-> $X "//*[@name=#{JSON.stringify name}]", root
 $L = console.log.bind console
 
@@ -32,5 +38,5 @@ $R = do->
 "concat slice splice map filter".split(" ").forEach (name)->
 	$X.Class::[name] = do(method=$X.Class::[name])-> ->
 		result = new @constructor
-		result.push method.apply @, arguments
+		result.push.apply result, method.apply @, arguments
 		result

@@ -7,6 +7,7 @@ $X = do->
 			xul: "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 			xslt: "http://www.w3.org/1999/XSL/Transform"
 			fo: "http://www.w3.org/1999/XSL/Format"
+			xlink: "http://www.w3.org/1999/xlink"
 		resolver: (ns)->(prefix)-> ns[prefix] or null
 		type: 0
 	class Class extends [].constructor
@@ -22,7 +23,7 @@ $X = do->
 			result
 		xpathFilter: (xp)->
 			result = new @constructor
-			result.push.apply result, @filter (item)->
+			result.push.apply result, @filter (item)=>
 				(@constructor.XPath xp, item, {type:3})[0]
 			result
 		unique: if typeof Set == 'function'
