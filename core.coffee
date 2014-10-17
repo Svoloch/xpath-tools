@@ -73,6 +73,13 @@ $X = do->
 				try
 					item.addEventListener event, onceCallback, false
 			@
+		dispatch: (name, params={})->
+			for element in @ when typeof element.dispatchEvent == 'function'
+				event = document.createEvent 'Events'
+				for key, value of params
+					event[key] = value
+				element.dispatchEvent event
+		fire: -> @dispatch.apply @, arguments
 		addClass: (cls)->
 			for item in @ when item instanceof Element
 				item.setAttribute 'class', if item.hasAttribute 'class'
