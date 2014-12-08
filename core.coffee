@@ -11,7 +11,7 @@ $X = do->
 		resolver: (ns)->(prefix)-> ns[prefix] or null
 		type: 0
 	class Class extends [].constructor
-		constructor: -> super()
+		constructor: -> super
 		clone: ->
 			result = new @constructor
 			result.push.apply result, @
@@ -37,41 +37,34 @@ $X = do->
 		else
 			->
 				result = new @constructor
-				@forEach (item)-> if ~(result.indexOf item)
+				@forEach (item)-> if item not in result
 					result.push item
 				result
 		addListener: (event, callback)->
 			for item in @
-				try
-					item.addEventListener event, callback, false
+				try item.addEventListener event, callback, false
 			@
 		removeListener: (event, callback)->
 			for item in @
-				try
-					item.removeEventListener event, callback, false
+				try item.removeEventListener event, callback, false
 			@
 		on: ->@addListener.apply @, arguments
 		off: ->@removeListener.apply @, arguments
 		one: (event, callback)->
 			oneCallback = ->
-				try
-					@removeEventListener event, oneCallback, false
-				catch e then
+				try @removeEventListener event, oneCallback, false
 				callback.apply @, arguments
 			for item in @
-				try
-					item.addEventListener event, oneCallback, false
+				try item.addEventListener event, oneCallback, false
 			@
 		once: (event, callback)->
 			copy = @clone()
 			onceCallback = ->
-				try
-					for item in copy
-						item.removeEventListener event, onceCallback, false
+				try for item in copy
+					item.removeEventListener event, onceCallback, false
 				callback.apply @, arguments
 			for item in @
-				try
-					item.addEventListener event, onceCallback, false
+				try item.addEventListener event, onceCallback, false
 			@
 		dispatch: (name, params={})->
 			for element in @ when typeof element.dispatchEvent == 'function'
@@ -84,7 +77,7 @@ $X = do->
 			for item in @ when item instanceof Element
 				item.setAttribute 'class', if item.hasAttribute 'class'
 					classValue = item.getAttribute 'class'
-					if ~((classValue.split /\s+/).indexOf cls)
+					if cls in classValue.split /\s+/
 						classValue
 					else
 						"#{classValue} #{cls}"
@@ -179,8 +172,7 @@ $X = do->
 	XPath = (xpath, root = document, config)->
 		resolver = (config?.resolver? or defaults.resolver) (config?.ns? or defaults.ns)
 		type = if config?.type? then config.type else defaults.type
-		iterator = try
-			document.evaluate xpath, root, resolver, type, null
+		iterator = try document.evaluate xpath, root, resolver, type, null
 		result = new Class
 		if iterator
 			switch iterator.resultType
@@ -208,7 +200,7 @@ $X = do->
 		for field in Object.keys @
 			newXPath[field] = @[field]
 		newClass = class extends @Class
-			constructor: ->super()
+			constructor: ->super
 		newClass.XPath = newXPath
 		newXPath.Class = newClass
 		newXPath
