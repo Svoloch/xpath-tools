@@ -93,12 +93,24 @@ $X = do->
 		attr: (attrs)->
 			for item in @ when item instanceof Element
 				for name, value of attrs
-					try
-						if value?
-							item.setAttribute name, value
-						else
-							item.removeAttribute name
+					splited = name.split ':'
+					if splited.length == 2
+						[ns, name] = splited
+						ns = @constructor.XPath.defaults.ns[ns]
+						try
+							if value?
+								item.setAttributeNS ns, name, value
+							else
+								item.removeAttributeNS ns, name
+					else
+						try
+							if value?
+								item.setAttribute name, value
+							else
+								item.removeAttribute name
 			@
+		getAttr: (attr)->
+			(@constructor.XPath "@#{attr}", @[0], {type:2})[0]
 		css: (attrs)->
 			for item in @ when item instanceof Element
 				for name, value of attrs
