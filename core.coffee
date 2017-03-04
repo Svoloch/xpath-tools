@@ -175,12 +175,34 @@ $X = do->
 			@
 		val: (value)->
 			if arguments.length
-				for item in @ when item.value?
+				for item in @ when item instanceof Element
 					item.value = value
+					switch
+						when item instanceof HTMLTextAreaElement
+							item.value = value
+						when item instanceof HTMLSelectElement
+							item.value = value
+						when item instanceof HTMLInputElement
+							switch item.getAttribute
+								when 'file' then continue
+								when 'checkbox', 'radio'
+									item.checked = !!value
+								else item.value = value
 				return @
 			else
-				for item in @ when item.value?
-					return item.value
+				for item in @ when item instanceof Element
+					switch
+						when item instanceof HTMLTextAreaElement
+							return item.value
+						when item instanceof HTMLSelectElement
+							return item.value
+						when item instanceof HTMLInputElement
+							switch item.getAttribute
+								when 'file'
+									return item.files
+								when 'checkbox', 'radio'
+									return item.checked
+								else return item.value
 	XPath = (xpath, root = document, config)->
 		resolver = (config?.resolver? or defaults.resolver) (config?.ns? or defaults.ns)
 		type = if config?.type? then config.type else defaults.type
