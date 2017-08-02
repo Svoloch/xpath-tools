@@ -86,7 +86,7 @@ $X = do->
 		removeClass: (cls)->
 			test = (className)-> className != cls
 			for item in @ when item instanceof Element
-				if newClass = item.getAttribute('class').split(/\s+/).filter(test).join(' ')
+				if newClass = (item.getAttribute('class')||"").split(/\s+/).filter(test).join(' ')
 					item.setAttribute 'class', newClass
 				else item.removeAttribute 'class'
 			@
