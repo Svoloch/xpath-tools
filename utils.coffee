@@ -16,7 +16,7 @@ $ID = (id, root=document)->
 	result = new $X.Class
 	if element? then result.push element
 	result
-$C = (cls, root=document)-> $A root.getElementsByClassName cls
+$C = (cls, root=document)-> $A (root.getElementsByClassName cls)...
 $N = (name, root)-> $X "//*[@name=#{JSON.stringify name}]", root
 $L = console.log.bind console
 
