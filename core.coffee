@@ -90,6 +90,11 @@ $X = do->
 					item.setAttribute 'class', newClass
 				else item.removeAttribute 'class'
 			@
+		hasClass: (cls)->
+			for item in @ when item instanceof Element
+				if ~(item.getAttribute('class')||"").indexOf(cls)
+					return true
+			false
 		attr: (attrs)->
 			for item in @ when item instanceof Element
 				for name, value of attrs
