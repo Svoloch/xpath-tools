@@ -178,6 +178,40 @@ $X = do->
 			if element
 				appendArray args
 			@
+		insertBefore: (place)->
+			if place instanceof Node
+				for node in @
+					if node instanceof Node
+						place.parentNode.insertBefore node, place
+					else 
+						place.parentNode.insertBefore (document.createTextNode "#{node}"), place
+			else if place instanceof [].constructor
+				place.some (item)=>
+					return false unless item instanceof Element
+					@insertBefore item
+					true
+			@
+		insertAfter: (place)->
+			if place instanceof Node
+				next = place.nextElementSibling
+				if next instanceof Node
+					for node in @
+						if node instanceof Node
+							next.parentNode.insertBefore node, next
+						else 
+							next.parentNode.insertBefore (document.createTextNode "#{node}"), next
+				else
+					for node in @
+						if node instanceof Node
+							place.parentNode.appendChild node
+						else 
+							place.parentNode.appendChild document.createTextNode "#{node}"
+			else if place instanceof [].constructor
+				place.some (item)=>
+					return false unless item instanceof Element
+					@insertAfter item
+					true
+			@
 		val: (value)->
 			if arguments.length
 				for item in @ when item instanceof Element
