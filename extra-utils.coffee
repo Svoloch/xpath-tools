@@ -14,10 +14,10 @@ s samp script section select small source spacer span strike strong style sub su
 table tbody td textarea tfoot th thead time title tr track tt u ul var video wbr xmp
 """.split(/\s+/).forEach (name)->
 	$html[name] = (args...)->
-		tag = $html tag
+		tag = $html name
 		for arg in args
 			if typeof arg == 'string'
-				tag.address arg
+				tag.addClass arg
 			else if typeof arg == 'object'
 				tag.attr args
 			else if tag.constructor.XPath.defaults.strict
@@ -36,10 +36,10 @@ path pattern polygon polyline radialGradient rect script set stop style svg swit
 text textPath title tref tspan use view vkern
 """.split(/\s+/).forEach (name)->
 	$svg[name] = (args...)->
-		tag = $svg tag
+		tag = $svg name
 		for arg in args
 			if typeof arg == 'string'
-				tag.address arg
+				tag.addClass arg
 			else if typeof arg == 'object'
 				tag.attr args
 			else if tag.constructor.XPath.defaults.strict
