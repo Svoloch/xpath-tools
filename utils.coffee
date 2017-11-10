@@ -1,12 +1,18 @@
 
-$A = (arr...)->
-	result = new $X.Class
-	for val in arr
-		if [].constructor.isArray val
-			for subval in val
-				result.push ($A subval)...
-		else result.push val
-	result
+$A = do->
+	isArray = (a)->
+		(a instanceof [].constructor) || (
+			(typeof a != 'string') &&
+			!(a instanceof ''.constructor) && ([].slice.call(a,0).length == a.length)
+		)
+	(arr...)->
+		result = new $X.Class
+		for val in arr
+			if isArray val
+				for subval in val
+					result.push ($A subval)...
+			else result.push val
+		result
 $svg = (tag)-> $A [document.createElementNS "http://www.w3.org/2000/svg", tag]
 $html = (tag)-> $A [document.createElementNS "http://www.w3.org/1999/xhtml", tag]
 $ID = (id, root=document)->
