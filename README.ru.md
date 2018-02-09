@@ -34,47 +34,45 @@ cat core.coffee utils.coffee events.coffee | coffee -c -s -b > xpath.js
 `$X(xpath, root, config)` применить `xpath` как XPath к элементу `root` с опцими переанными через `config`;
 возвращает объект унаследованый от массива с результатом выборки
 result.     строка с
-* `xpath` - элемент или документ  XP             поумолчанию
-* `root` - Xобъект с опциямиn используются только cument и `strict`e
-ault   - число передаваемое в нативный селектор        поумолчанию 0.
-`strict` - указывает игнорировать ли исключения возникающие при выборке.
-* `config` - object with options, only `type` using. `type` passed to native XPath selector, 0 by default
-             конструктор объектов которые используются в данной библиотеке  унаследован от
-`$X.Class` - constructor of objects used in this library, extends `Array`.
-                    возвращает объект с тем же содержимым.
-`$X.Class::clone` - return object with same content.
-                                   применяет         к каждому элементу в объекте
-`$X.Class::xpath(xpath, config)` - apply `xpath` to each element in current object.
-                                 фильтрукт элементы по
-`$X.Class::xpathFilter(xpath)` - filtering elements by `xpath`.
-                       возвращает объект в котором каждый элемент включён только раз.
-`$X.Class::unique()` - elements included in result only once.
-                                           устанавливает обработчик            на событие         в каждом элементе
-`$X.Class::addListener(event, callback)` - set `callback` to `event` for all elements.
-                                              убирает обработчик            с события         для каждого элемента
-`$X.Class::removeListener(event, callback)` - unset `callback` from `event` for all elements.
-                                  ссылка на
-`$X.Class::on(event, callback)` - link to `$X.Class.addListener`.
-                                   ссылка на
-`$X.Class::off(event, callback)` - link to `$X.Class.removeListener`.
-                                   обработчик            выполнится только раз на каждом элементе
-`$X.Class::one(event, callback)` - `callback` executed once for each element.
-                                    обработчик            выполнится только раз
-`$X.Class::once(event, callback)` - `callback` executed once.
-                                     вызвать событие        с параметрами из
-`$X.Class::dispatch(name, params)` - call event named `name` with parameters in `params`.
-                                 ссылка на
-`$X.Class::fire(name, params)` - link to `$X.Class.dispatch`.
+* `xpath` - элемент или документ XPath объект поумолчанию
+* `root` - XML елемент с которого начинается поиск, поумолчанию `document`
+* `config` - объект с опцими, сейчас корректно работает только `type`
+
+`$X.Class` - конструктор объектов которые используются в данной библиотеке  унаследован от `Array`.
+                    
+`$X.Class::clone` - возвращает объект с тем же содержимым.
+                                   
+`$X.Class::xpath(xpath, config)` - применяет `xpath` к каждому элементу в объекте.
+                                 
+`$X.Class::xpathFilter(xpath)` - фильтрует элементы по `xpath`.
+                       
+`$X.Class::unique()` - возвращает объект в котором каждый элемент включён только раз.
+                                           
+`$X.Class::addListener(event, callback)` - устанавливает обработчик `callback` на событие `event` в каждом элементе
+                                              
+`$X.Class::removeListener(event, callback)` - убирает обработчик `callback` с события `event` для каждого элемента
+                                  
+`$X.Class::on(event, callback)` - ссылка на `$X.Class.addListener`.
+
+`$X.Class::off(event, callback)` - ссылка на `$X.Class.removeListener`.
+                                   
+`$X.Class::one(event, callback)` - обработчик `callback` выполнится только раз на каждом элементе.
+                                    
+`$X.Class::once(event, callback)` - обработчик `callback` выполнится только раз.
+                                     
+`$X.Class::dispatch(name, params)` - вызвать событие `name` с параметрами из `params`.
+                                 
+`$X.Class::fire(name, params)` - ссылка на `$X.Class.dispatch`.
 
 `$X.Class::addClass(cls)` - 
 
 `$X.Class::removeClass(cls)` -
-                          устанавливает атрибуты из объекта `attrs`. Значения `null` и `undefined` убирают атрибуты.
-`$X.Class::attr(attrs)` - set attributes from object `attrs`. `null` and `undefined` values removes attribute.
-                            возвращает первый найденый атрибут с именем `attr` в элементах находящихся в объекте.
-`$X.Class::getAttr(attr)` - return value of first attribute named `attr` of elements in object.
-                          устанавливает стили из `styles`
-`$X.Class::css(styles)` - set styles from `styles`.
+                          
+`$X.Class::attr(attrs)` - устанавливает атрибуты из объекта `attrs`. Значения `null` и `undefined` убирают атрибуты.
+
+`$X.Class::getAttr(attr)` - возвращает первый найденый атрибут с именем `attr` в элементах находящихся в объекте.
+
+`$X.Class::css(styles)` - устанавливает стили из `styles`.
 
 `$X.Class::empty()` -
 
