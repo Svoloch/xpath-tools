@@ -139,7 +139,7 @@ $X = do->
 					else if value instanceof [].constructor
 						prependArray value
 					else
-						element.insertBefore (document.createTextNode "#{value}"), element.firstChild
+						element.insertBefore (document.createTextNode "#{value}"), element.firstChild if value?
 			prependArray = (arr)->
 				if element.firstChild
 					prependArray = prependArrayMain
@@ -151,7 +151,7 @@ $X = do->
 					if arr[arr.length-1] instanceof Node
 						element.appendChild arr[arr.length-1]
 					else
-						element.appendChild document.createTextNode "#{value}"
+						element.appendChild document.createTextNode "#{value}" if value?
 					prependArray = prependArrayMain
 					prependArray arr[0...-1]
 			for item in @
@@ -170,7 +170,7 @@ $X = do->
 					else if value instanceof [].constructor
 						appendArray value
 					else
-						element.appendChild document.createTextNode "#{value}"
+						element.appendChild document.createTextNode "#{value}" if value?
 			for item in @
 				if item instanceof Node
 					element = item
@@ -184,7 +184,7 @@ $X = do->
 					if node instanceof Node
 						place.parentNode.insertBefore node, place
 					else 
-						place.parentNode.insertBefore (document.createTextNode "#{node}"), place
+						place.parentNode.insertBefore (document.createTextNode "#{node}"), place if node?
 			else if place instanceof [].constructor
 				place.some (item)=>
 					return false unless item instanceof Element
@@ -199,13 +199,13 @@ $X = do->
 						if node instanceof Node
 							next.parentNode.insertBefore node, next
 						else 
-							next.parentNode.insertBefore (document.createTextNode "#{node}"), next
+							next.parentNode.insertBefore (document.createTextNode "#{node}"), next if node?
 				else
 					for node in @
 						if node instanceof Node
 							place.parentNode.appendChild node
 						else 
-							place.parentNode.appendChild document.createTextNode "#{node}"
+							place.parentNode.appendChild document.createTextNode "#{node}" if node?
 			else if place instanceof [].constructor
 				place.some (item)=>
 					return false unless item instanceof Element
