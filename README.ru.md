@@ -81,7 +81,13 @@ result.     строка с
 `$X.Class::prepend()` -
 
 `$X.Class::append()` -
-                    
+
+`$X.Class::replace()` -
+
+`$X.Class::replaceContent()` -
+
+`$X.Class::getFirstNode()` - первая нода в контейнере, не в DOM.
+
 `$X.Class::val()` - возвращает значение из первого попавшегося элемента ввода.
                          
 `$X.Class::val(value)` - устанавливает значение `value` на первый попавшийся элемент ввода.

@@ -179,7 +179,7 @@ $X = do->
 				appendArray args
 			@
 		insertBefore: (place)->
-			if place instanceof Node
+			if place instanceof Node && place.parentNode
 				for node in @
 					if node instanceof Node
 						place.parentNode.insertBefore node, place
@@ -212,6 +212,17 @@ $X = do->
 					@insertAfter item
 					true
 			@
+		getFirstNode: ->
+			@some (item)->
+				return item if item instanceof Node
+				if item instanceof [].constructor
+					(new @constructor item...).firstNode()
+				return
+		replace: (arr...)->
+			(new @constructor arr...).insertBefore @getFirstNode()
+			do @remove
+		replaceContent: (arr...)->
+			@empty().append arr...
 		val: (value)->
 			if arguments.length
 				for item in @ when item instanceof Element

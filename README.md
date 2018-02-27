@@ -1,6 +1,6 @@
 xpath-tools
 ===========
-Tools for sipmleify working with DOM using XPath
+Tools for simpleify working with DOM using XPath
 
 Before using
 ------------
@@ -80,6 +80,12 @@ Main code.
 `$X.Class::prepend()` -
 
 `$X.Class::append()` -
+
+`$X.Class::replace()` -
+
+`$X.Class::replaceContent()` -
+
+`$X.Class::getFirstNode()` - first node in container, not in DOM.
 
 `$X.Class::val()` - get value from first input HTML element.
 
