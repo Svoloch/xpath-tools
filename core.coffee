@@ -11,7 +11,7 @@ $X = do->
 		resolver: (ns)->(prefix)-> ns[prefix] or null
 		type: 0
 	class Class extends [].constructor
-		constructor: -> super
+		constructor: (args...)-> super args...
 		clone: ->
 			result = new @constructor
 			result.push.apply result, @
@@ -284,7 +284,7 @@ $X = do->
 		for field in Object.keys @
 			newXPath[field] = @[field]
 		newClass = class extends @Class
-			constructor: ->super
+			constructor: (args...)->super args...
 		newClass.XPath = newXPath
 		newXPath.Class = newClass
 		newXPath
