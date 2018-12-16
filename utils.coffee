@@ -13,14 +13,14 @@ $A = do->
 	(arr...)->
 		result = new $X.Class
 		for val in arr
-			continue if val?
+			continue unless val?
 			if isArray val
 				for subval in val
 					result.push ($A subval)...
 			else result.push val
 		result
-$svg = (tag)-> $A [document.createElementNS "http://www.w3.org/2000/svg", tag]
-$html = (tag)-> $A [document.createElementNS "http://www.w3.org/1999/xhtml", tag]
+$svg = (tag)-> $A document.createElementNS "http://www.w3.org/2000/svg", tag
+$html = (tag)-> $A document.createElementNS "http://www.w3.org/1999/xhtml", tag
 $ID = (id, root=document)->
 	element = try
 		root.getElementById id
@@ -36,7 +36,7 @@ $R = do->
 	list = []
 	(callback)->
 		unless document.readyState == "complete"
-			($A [document]).on 'DOMContentLoaded', -> do callback
+			$A(document).on 'DOMContentLoaded', -> do callback
 		else
 			if list.length
 				list.push callback
