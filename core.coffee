@@ -68,9 +68,7 @@ $X = do->
 			@
 		dispatch: (name, params={})->
 			for element in @ when typeof element.dispatchEvent == 'function'
-				event = document.createEvent 'Events'
-				for key, value of params
-					event[key] = value
+				event = new Event name, params
 				element.dispatchEvent event
 		fire: -> @dispatch.apply @, arguments
 		addClass: (cls)->
