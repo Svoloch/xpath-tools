@@ -46,7 +46,7 @@ $R = do->
 					try
 						do list[0]
 					catch e
-						setTimeout (->throw e), 10
+						setTimeout (->throw e), 0
 					finally
 						list.shift()
 
