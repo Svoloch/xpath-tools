@@ -3,7 +3,12 @@ $A = do->
 	isArray = (a)->
 		(a instanceof [].constructor) || (
 			(typeof a != 'string') &&
-			!(a instanceof ''.constructor) && ([].slice.call(a,0).length == a.length)
+			!(a instanceof ''.constructor) && (
+				try
+					[].slice.call(a,0).length == a.length
+				catch
+					false
+			)
 		)
 	(arr...)->
 		result = new $X.Class
