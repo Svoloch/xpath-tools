@@ -13,6 +13,7 @@ $A = do->
 	(arr...)->
 		result = new $X.Class
 		for val in arr
+			continue if val?
 			if isArray val
 				for subval in val
 					result.push ($A subval)...
