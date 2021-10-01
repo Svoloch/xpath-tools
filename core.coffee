@@ -161,12 +161,12 @@ $X = do->
 			@
 		append: (args...)->
 			return @ unless args.length
-			appendArray = (arr)->
+			appendArray = (element, arr)->
 				for value in arr
 					if value instanceof Node
 						element.appendChild value
 					else if value instanceof [].constructor
-						appendArray value
+						appendArray element, value
 					else
 						element.appendChild document.createTextNode "#{value}" if value?
 			for item in @
@@ -174,7 +174,7 @@ $X = do->
 					element = item
 					break
 			if element
-				appendArray args
+				appendArray element, args
 			@
 		insertBefore: (place)->
 			if place instanceof Node && place.parentNode
@@ -211,13 +211,20 @@ $X = do->
 					true
 			@
 		getFirstNode: ->
-			@some (item)->
-				return item if item instanceof Node
-				if item instanceof [].constructor
-					(new @constructor item...).firstNode()
-				return
+			try
+				@forEach (item)->
+					throw item if item instanceof Node
+					if item instanceof [].constructor
+						(new @constructor item...).getFirstNode()
+			catch node then return node
 		replace: (arr...)->
-			(new @constructor arr...).insertBefore @getFirstNode()
+			first = @getFirstNode()
+			arr.forEach (item)=>
+				if item instanceof @constructor
+					item.insertBefore first
+				else if item instanceof [].constructor
+					(new @constructor item...).insertBefore first
+				else (new @constructor item).insertBefore first
 			do @remove
 		replaceContent: (arr...)->
 			@empty().append arr...
