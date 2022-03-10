@@ -1,5 +1,11 @@
-
-"""
+`import utils from "./utils.js"`###!IMPORT###
+export default do->###!IMPORT###
+do do(XPath = window.$X)->###!SCRIPT###
+	(XPath)->
+		XPath.use utils
+		$html = XPath.Utils.$html
+		$svg = XPath.Utils.$svg
+		"""
 a abbr acronym address applet area article aside audio
 b base basefont bdi bdo bgsound big blink blockquote body br button
 canvas caption center cite code col colgroup command comment
@@ -12,18 +18,15 @@ nav nobr noembed noframes noscript object ol optgroup option output
 p param plaintext pre progress q rp rt ruby
 s samp script section select small source spacer span strike strong style sub summary sup
 table tbody td textarea tfoot th thead time title tr track tt u ul var video wbr xmp
-""".split(/\s+/).forEach (name)->
-	$html[name] = (args...)->
-		tag = $html name
-		for arg in args
-			if typeof arg == 'string'
-				tag.addClass arg
-			else if typeof arg == 'object'
-				tag.attr args
-			else if tag.constructor.XPath.defaults.strict
-				throw new TypeError "Wrong type of parameter"
-		tag
-"""
+		""".split(/\s+/).forEach (name)-> $html[name] = (args...)->
+			tag = $html name
+			for arg in args
+				if typeof arg == 'string'
+					tag.addClass arg
+				else if typeof arg == 'object'
+					tag.attr arg
+			tag
+		"""
 a altGlyph altGlyphDef altGlyphItem animate animateColor animateMotion animateTransform
 circle clipPath color-profile cursor defs desc ellipse
 feBlend feColorMatrix feComponentTransfer feComposite feConvolveMatrix
@@ -34,14 +37,11 @@ filter font font-face font-face-format font-face-name font-face-src font-face-ur
 g glyph glyphRef hkern image line linearGradient marker mask metadata missing-glyph mpath
 path pattern polygon polyline radialGradient rect script set stop style svg switch symbol
 text textPath title tref tspan use view vkern
-""".split(/\s+/).forEach (name)->
-	$svg[name] = (args...)->
-		tag = $svg name
-		for arg in args
-			if typeof arg == 'string'
-				tag.addClass arg
-			else if typeof arg == 'object'
-				tag.attr args
-			else if tag.constructor.XPath.defaults.strict
-				throw new TypeError "Wrong type of parameter"
-		tag
+		""".split(/\s+/).forEach (name)-> $svg[name] = (args...)->
+			tag = $svg name
+			for arg in args
+				if typeof arg == 'string'
+					tag.addClass arg
+				else if typeof arg == 'object'
+					tag.attr arg
+			tag

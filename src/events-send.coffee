@@ -1,5 +1,5 @@
-
-$X.Class.dispatch = do->
+export default do->###!IMPORT###
+do do(XPath = window.$X)->###!SCRIPT###
 	events =
 		click: MouseEvent
 		dblclick: MouseEvent
@@ -21,7 +21,7 @@ $X.Class.dispatch = do->
 		blur: FocusEvent
 		focusin: FocusEvent
 		focusout: FocusEvent
-		
+
 		keydown: KeyboardEvent
 		keypress: KeyboardEvent
 		keyup: KeyboardEvent
@@ -43,12 +43,14 @@ $X.Class.dispatch = do->
 		gotpointercapture: PointerEvent
 		lostpointercapture: PointerEvent
 
-	dispatch = (name, params={})->
-		E = dispatch.events[name] ? if params.detail == null
-			Event
-		else CustomEvent
-		for element in @ when typeof element.dispatchEvent == 'function'
-			event = new E name, params
-			element.dispatchEvent event
-	dispatch.events = events
-	dispatch
+	(XPath)->
+		XPath.Class.dispatch = do->
+			dispatch = (name, params={})->
+				E = dispatch.events[name] ? if params.detail == null
+					Event
+				else CustomEvent
+				for element in @ when typeof element.dispatchEvent == 'function'
+					event = new E name, params
+					element.dispatchEvent event
+			dispatch.events = events
+			dispatch

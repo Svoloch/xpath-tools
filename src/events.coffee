@@ -1,5 +1,6 @@
-
-"""
+export default do->###!IMPORT###
+do do(XPath = window.$X)->###!SCRIPT###
+	events = """
 click dblclick mousedown mouseup mouseover mousemove mouseout dragstart drag dragenter
 dragleave dragover drop dragend keydown keypress keyup load unload abort
 error resize scroll select change submit reset focus blur focusin
@@ -18,5 +19,8 @@ propertychange filterchange readystatechange losecapture DOMMouseScroll
 dragdrop dragexit draggesture CheckboxStateChange RadioStateChange close command input
 DOMMenuItemActive DOMMenuItemInactive overflow overflowchanged
 underflow popuphidden popuphiding popupshowing popupshown broadcast commandupdate
-""".split(/\s/).forEach (event)->
-	$X.Class::[event] = (callback)->@on event, callback
+""".split /\s/
+	(XPath)->
+		XPath.events = events
+		events.forEach (event)->
+			XPath.Class::[event] = (callback)->@on event, callback

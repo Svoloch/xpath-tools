@@ -1,5 +1,5 @@
-
-$X = do->
+export default do->###!IMPORT###
+window.$X = do->###!SCRIPT###
 	defaults =
 		ns:
 			svg: "http://www.w3.org/2000/svg"
@@ -26,20 +26,13 @@ $X = do->
 			result.push.apply result, @filter (item)=>
 				(@constructor.XPath xp, item, {type:3})[0]
 			result
-		unique: if typeof Set == 'function'
-			->
-				result = new @constructor
-				set = new Set
-				@forEach (item)-> unless set.has item
-					set.add item
-					result.push item
-				result
-		else
-			->
-				result = new @constructor
-				@forEach (item)-> if item not in result
-					result.push item
-				result
+		unique: ->
+			result = new @constructor
+			set = new Set
+			@forEach (item)-> unless set.has item
+				set.add item
+				result.push item
+			result
 		addListener: (event, callback)->
 			for item in @
 				try item.addEventListener event, callback, false
@@ -181,7 +174,7 @@ $X = do->
 				for node in @
 					if node instanceof Node
 						place.parentNode.insertBefore node, place
-					else 
+					else
 						place.parentNode.insertBefore (document.createTextNode "#{node}"), place if node?
 			else if place instanceof [].constructor
 				place.some (item)=>
@@ -196,13 +189,13 @@ $X = do->
 					for node in @
 						if node instanceof Node
 							next.parentNode.insertBefore node, next
-						else 
+						else
 							next.parentNode.insertBefore (document.createTextNode "#{node}"), next if node?
 				else
 					for node in @
 						if node instanceof Node
 							place.parentNode.appendChild node
-						else 
+						else
 							place.parentNode.appendChild document.createTextNode "#{node}" if node?
 			else if place instanceof [].constructor
 				place.some (item)=>
@@ -282,7 +275,14 @@ $X = do->
 		result
 	XPath.Class = Class
 	Class.XPath = XPath
+	XPath.Addons = new Set
+	XPath.Utils =
+		$X: XPath
 	XPath.defaults = defaults
+	XPath.use = (addons...)->addons.forEach (addon)=>
+		unless @Addons.has addon
+			@Addons.add addon
+			addon @
 	XPath.clone = ->
 		newXPath = do(originalXPath = @)->->
 			originalXPath.apply @, arguments
@@ -292,5 +292,6 @@ $X = do->
 			constructor: (args...)->super args...
 		newClass.XPath = newXPath
 		newXPath.Class = newClass
+		XPath.Addons = new Set originalXPath.Addons
 		newXPath
 	XPath
