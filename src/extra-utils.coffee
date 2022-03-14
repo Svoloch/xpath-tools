@@ -1,8 +1,7 @@
 `import utils from "./utils.js"`###!IMPORT###
-export default do->###!IMPORT###
-do do(XPath = window.$X)->###!SCRIPT###
-	(XPath)->
-		XPath.use utils
+export default do->(XPath)->###!IMPORT###
+do(XPath = window.$X)->###!SCRIPT###
+		XPath.use utils###!IMPORT###
 		$html = XPath.Utils.$html
 		$svg = XPath.Utils.$svg
 		"""
@@ -16,7 +15,7 @@ i iframe img input ins isindex kbd keygen label legend li link listing
 main map mark marquee menu meta meter multicol
 nav nobr noembed noframes noscript object ol optgroup option output
 p param plaintext pre progress q rp rt ruby
-s samp script section select small source spacer span strike strong style sub summary sup
+# s samp script section select small source spacer span strike strong style sub summary sup
 table tbody td textarea tfoot th thead time title tr track tt u ul var video wbr xmp
 		""".split(/\s+/).forEach (name)-> $html[name] = (args...)->
 			tag = $html name

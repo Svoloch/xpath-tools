@@ -1,5 +1,5 @@
-export default do->###!IMPORT###
-do do(XPath = window.$X)->###!SCRIPT###
+export default do->(XPath)->###!IMPORT###
+do(XPath = window.$X)->###!SCRIPT###
 	events =
 		click: MouseEvent
 		dblclick: MouseEvent
@@ -43,14 +43,14 @@ do do(XPath = window.$X)->###!SCRIPT###
 		gotpointercapture: PointerEvent
 		lostpointercapture: PointerEvent
 
-	(XPath)->
-		XPath.Class.dispatch = do->
-			dispatch = (name, params={})->
-				E = dispatch.events[name] ? if params.detail == null
-					Event
-				else CustomEvent
-				for element in @ when typeof element.dispatchEvent == 'function'
-					event = new E name, params
-					element.dispatchEvent event
-			dispatch.events = events
-			dispatch
+
+	XPath.Class.dispatch = do->
+		dispatch = (name, params={})->
+			E = dispatch.events[name] ? if params.detail == null
+				Event
+			else CustomEvent
+			for element in @ when typeof element.dispatchEvent == 'function'
+				event = new E name, params
+				element.dispatchEvent event
+		dispatch.events = events
+		dispatch

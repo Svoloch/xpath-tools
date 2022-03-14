@@ -10,6 +10,7 @@ clear:
 	rm dist/es6/utils.js
 	rm dist/es6/extra-utils.js
 	rm dist/es6/events.js
+	rm dist/es6/events-send.js
 	rm dist/es6/off.js
 	rm dist/es6/hl.js
 	rm dist/es6/xpath.js
@@ -17,6 +18,7 @@ clear:
 	rm dist/web/utils.js
 	rm dist/web/extra-utils.js
 	rm dist/web/events.js
+	rm dist/web/events-send.js
 	rm dist/web/off.js
 	rm dist/web/hl.js
 	rm dist/web/xpath.js

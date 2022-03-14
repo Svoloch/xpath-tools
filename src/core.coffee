@@ -292,6 +292,6 @@ window.$X = do->###!SCRIPT###
 			constructor: (args...)->super args...
 		newClass.XPath = newXPath
 		newXPath.Class = newClass
-		XPath.Addons = new Set originalXPath.Addons
+		newXPath.Addons = new Set @Addons
 		newXPath
 	XPath

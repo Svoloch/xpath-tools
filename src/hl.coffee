@@ -1,8 +1,7 @@
 `import extraUtils from "./extra-utils.js"`###!IMPORT###
-export default do->###!IMPORT###
-do do(XPath = window.$X)->###!SCRIPT###
-	(XPath)->
-		XPath.use extraUtils
+export default do->(XPath)->###!IMPORT###
+do(XPath = window.$X)->###!SCRIPT###
+		XPath.use extraUtils###!IMPORT###
 		$A = XPath.Utils.$A
 		$C = XPath.Utils.$C
 		$html = XPath.Utils.$html

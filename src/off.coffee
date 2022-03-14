@@ -1,7 +1,6 @@
-export default do->###!IMPORT###
-do do(XPath = window.$X)->###!SCRIPT###
-	eventKey = Symbol()
-	(XPath)->
+export default do->(XPath)->###!IMPORT###
+do(XPath = window.$X)->###!SCRIPT###
+		eventKey = Symbol()
 		lastAdd = XPath.Class::addListener
 		lastRemove = XPath.Class::removeListener
 		add = (element, event, callback)->

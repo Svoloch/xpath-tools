@@ -1,6 +1,5 @@
-export default do->###!IMPORT###
-do do(XPath = window.$X)->###!SCRIPT###
-	(XPath)->
+export default do->(XPath)->###!IMPORT###
+do(XPath = window.$X)->###!SCRIPT###
 		$L = console.log.bind console
 		$A = do->
 			isArray = (a)->
